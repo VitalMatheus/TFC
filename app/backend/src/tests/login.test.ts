@@ -13,10 +13,10 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Espera que a exista a rota login', () => {
-  it('verifica a existencia da rota login', async () => {
+  it('ao logar com sucesso retorna o status 200', async () => {
     const res = await chai.request(app)
     .post('/login')
-    .send({ email: 'gugaolhosclaros@hotmail.com', password: '123456' });
+    .send({ email: 'user@email.com', password: '123456' });
     expect(res.status).to.be.equal(200);
   });
 });
