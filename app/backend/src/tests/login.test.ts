@@ -12,20 +12,44 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 describe('Testa a rota login', () => {
-  it('ao logar com email email inválido ou sem email retorna o status 400', async () => {
+  it('ao tentar logar sem email retorna o status 400', async () => {
     const res = await chai
     .request(app)
     .post('/login')
     .send({ password: '123456' });
     expect(res.status).to.be.equal(400);
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.be.equal('All fields must be filled');
   })
 
-  it('ao logar com senha inválida ou não informar a senha retorna o status 400', async () => {
+  it('ao tentar logar sem informar a senha retorna o status 400', async () => {
     const res = await chai
     .request(app)
     .post('/login')
     .send({ email: 'user@email.com' });
     expect(res.status).to.be.equal(400);
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.be.equal('All fields must be filled');
+  })
+
+  it('ao tentar logar com email inválido retorna o status 401', async () => {
+    const res = await chai
+    .request(app)
+    .post('/login')
+    .send({ email: 'algum@email.com', password: 'senhaInvalida' });
+    expect(res.status).to.be.equal(401);
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.be.equal('Incorrect email or password');
+  })
+
+  it('ao tentar logar com senha inválida retorna o status 401', async () => {
+    const res = await chai
+    .request(app)
+    .post('/login')
+    .send({ email: 'user@user.com', password: '123456' });
+    expect(res.status).to.be.equal(401);
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.be.equal('Incorrect email or password');
   })
 
   it('ao logar com sucesso retorna o status 200', async () => {

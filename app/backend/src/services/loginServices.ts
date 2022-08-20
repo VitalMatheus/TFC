@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken';
 import loginValidate from '../helpers/loginValidate';
-import { Iuser } from '../interfaces/interfaces';
+import { Iuser, Iheader } from '../interfaces/interfaces';
 import User from '../database/models/users';
 
 const loginService = {
@@ -15,9 +15,18 @@ const loginService = {
     });
     if (!data) return { status: 401, message: { message: 'Incorrect email or password' } };
 
-    const secret = 'secret';
+    const secret = process.env.JWT_SECRET || 'jwt_secret';
     const token = Jwt.sign({ data }, secret);
     return { status: 200, message: { token } };
+  },
+
+  validate: async (user: Iheader) => {
+    const { email } = user;
+    const data = await User.findOne({
+      where: { email },
+      raw: true,
+    });
+    return data;
   },
 };
 
