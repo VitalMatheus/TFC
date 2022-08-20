@@ -3,8 +3,8 @@ import loginService from '../services/loginServices';
 
 const loginController = {
   getUser: async (req: Request, res: Response) => {
-    const data = await loginService.getUser(req.body);
-    const { status, message } = data;
+    const token = await loginService.getUser(req.body);
+    const { status, message } = token;
     return res.status(status).json(message);
   },
 };

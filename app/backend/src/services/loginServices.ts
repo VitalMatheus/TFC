@@ -8,17 +8,16 @@ const loginService = {
     const validated = loginValidate(user);
     if (validated) return validated;
 
-    const { email } = user;
+    const { email, password } = user;
     const data = await User.findOne({
-      where: { email },
+      where: { email, password },
       raw: true,
     });
-    if (!data) return { status: 401, message: { message: 'Username or password invalid' } };
+    if (!data) return { status: 401, message: { message: 'Incorrect email or password' } };
 
-    const secret = 'xiii é segredo';
+    const secret = 'secret';
     const token = Jwt.sign({ data }, secret);
-    const result = { status: 200, message: { token } };
-    return result;
+    return { status: 200, message: { token } };
   },
 };
 
