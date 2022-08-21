@@ -6,6 +6,11 @@ const teamsControllers = {
     const data = await teamsServices.getAll();
     return res.status(200).json(data);
   },
+
+  getOne: async (req: Request, res: Response) => {
+    const data = await teamsServices.getOne(+req.params.id);
+    return res.status(200).json(data);
+  },
 };
 
 export default teamsControllers;
