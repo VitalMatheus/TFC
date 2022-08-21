@@ -46,7 +46,7 @@ describe('Testa a rota login', () => {
     const res = await chai
     .request(app)
     .post('/login')
-    .send({ email: 'user@user.com', password: '123456' });
+    .send({ email: 'algum@email.com', password: 'senhaInvalida' });
     expect(res.status).to.be.equal(401);
     expect(res.body).to.have.property('message');
     expect(res.body.message).to.be.equal('Incorrect email or password');
@@ -58,5 +58,12 @@ describe('Testa a rota login', () => {
     .post('/login')
     .send({ email: 'user@user.com', password: '$2a$08$Y8Abi8jXvsXyqm.rmp0B.uQBA5qUz7T6Ghlg/CvVr/gLxYj5UAZVO' });
     expect(res.status).to.be.equal(200);
+  });
+
+  it('testa se ao logar, o frontend retorna os dados corretamente', async () => {
+    const res = await chai
+    .request(app)
+    .get('/')
+    expect(res.status).to.be.equal(200)
   });
 });
