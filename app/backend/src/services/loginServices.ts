@@ -1,6 +1,6 @@
 import * as Jwt from 'jsonwebtoken';
 import loginValidate from '../helpers/loginValidate';
-import { Iuser, Iheader } from '../interfaces/interfaces';
+import { Iuser, Iinfos } from '../interfaces/interfaces';
 import User from '../database/models/users';
 
 const loginService = {
@@ -8,9 +8,9 @@ const loginService = {
     const validated = loginValidate(user);
     if (validated) return validated;
 
-    const { email, password } = user;
+    const { email } = user;
     const data = await User.findOne({
-      where: { email, password },
+      where: { email },
       raw: true,
     });
     if (!data) return { status: 401, message: { message: 'Incorrect email or password' } };
@@ -20,13 +20,13 @@ const loginService = {
     return { status: 200, message: { token } };
   },
 
-  validate: async (user: Iheader) => {
+  getRole: async (user: Iinfos) => {
     const { email } = user;
     const data = await User.findOne({
       where: { email },
       raw: true,
     });
-    return data;
+    return data?.role;
   },
 };
 

@@ -3,7 +3,7 @@ export interface Iuser {
   password: string,
 }
 
-export interface Iheader {
+export interface Iinfos {
   id: number,
   username: string,
   email: string,
