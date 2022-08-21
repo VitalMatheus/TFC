@@ -86,4 +86,13 @@ describe('testa endpoint de times', () => {
     expect(data.status).to.be.equal(200)
     expect(data.body).to.eql(expectedResult)
   })
+
+  it('testa endpoint por cada time', async () => {
+    const data = await chai
+    .request(app)
+    .get('/teams/1')
+    expect(data.status).to.be.equal(200)
+    expect(data.body).to.have.property('teamName')
+    expect(data.body).to.have.property('id')
+  })
 });
