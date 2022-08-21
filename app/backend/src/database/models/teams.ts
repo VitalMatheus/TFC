@@ -16,8 +16,10 @@ Team.init({
   teamName: {
     type: STRING,
     allowNull: false,
+    field: 'team_name',
   },
 }, {
+  underscored: true,
   sequelize: db,
   modelName: 'teams',
   timestamps: false });
