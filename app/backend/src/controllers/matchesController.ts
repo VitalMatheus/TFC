@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
+// import validateToken from 'src/helpers/jwtValidate';
 import matchesServices from '../services/matchesServices';
 
 const matchesController = {

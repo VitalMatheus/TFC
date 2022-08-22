@@ -1,6 +1,6 @@
-import * as Jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import loginService from '../services/loginServices';
+import validateToken from '../helpers/jwtValidate';
 
 const loginController = {
   getUser: async (req: Request, res: Response) => {
@@ -11,12 +11,8 @@ const loginController = {
 
   getRole: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const token = req.headers.authorization;
-      const secret = process.env.JWT_SECRET || 'jwt_secret';
-
-      if (!token) return res.status(401).json({ message: 'Token not found' });
-      const result = Jwt.verify(token, secret);
-      const [user] = Object.values(result);
+      const validated = validateToken;
+      const [user] = Object.values(validated);
 
       const role = await loginService.getRole(user);
       if (!role) res.status(401).json({ message: 'User not aloud' });
