@@ -6,6 +6,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import { object } from 'joi';
 
 chai.use(chaiHttp);
 
@@ -79,5 +80,19 @@ describe('testa endpoint de matches', () => {
     .get('/matches?inProgress=false')
     expect(data.status).to.be.equal(200)
     expect(data.body[0]).to.be.deep.equal(finished)
+  })
+
+  it('ao inserir uma partida retorna um objeto com status 201', async () => {
+    const data = await chai
+    .request(app)
+    .post('/matches')
+    .send({
+      homeTeam: 16, 
+      awayTeam: 8,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+    })
+    expect(data.status).to.be.equal(201)
+    expect(typeof data.body).to.be.equal('object')
   })
 })
