@@ -10,3 +10,10 @@ export interface Iinfos {
   password: string,
   role: string,
 }
+
+export interface Imatch {
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}

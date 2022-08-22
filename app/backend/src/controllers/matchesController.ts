@@ -14,6 +14,11 @@ const matchesController = {
     const result = data.filter((obj) => obj.inProgress === (inProgress === 'true'));
     return res.status(200).json(result);
   },
+
+  insertMatch: async (req: Request, res: Response) => {
+    const data = await matchesServices.insertMatch(req.body);
+    return res.status(201).json(data);
+  },
 };
 
 export default matchesController;
