@@ -11,8 +11,10 @@ const loginController = {
 
   getRole: async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const validated = validateToken;
-      const [user] = Object.values(validated);
+      const token = req.headers.authorization;
+
+      if (!token) return { status: 400, message: { message: 'Token not found' } };
+      const [user] = Object.values(validateToken(token));
 
       const role = await loginService.getRole(user);
       if (!role) res.status(401).json({ message: 'User not aloud' });

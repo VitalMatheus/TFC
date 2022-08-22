@@ -23,6 +23,10 @@ const matchesServices = {
     });
     return data;
   },
+
+  updateInProgress: async (id: number) => {
+    await Match.update({ inProgress: false }, { where: { id } });
+  },
 };
 
 export default matchesServices;

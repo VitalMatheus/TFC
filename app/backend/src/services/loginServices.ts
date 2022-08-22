@@ -9,9 +9,10 @@ const loginService = {
     if (validated) return validated;
 
     const { email } = user;
+
     const data = await User.findOne({
       where: { email },
-      raw: true,
+      attributes: { exclude: ['password'] },
     });
     if (!data) return { status: 401, message: { message: 'Incorrect email or password' } };
 

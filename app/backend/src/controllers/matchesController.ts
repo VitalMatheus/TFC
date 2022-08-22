@@ -20,6 +20,11 @@ const matchesController = {
     const data = await matchesServices.insertMatch(req.body);
     return res.status(201).json(data);
   },
+
+  updateInProgress: async (req: Request, res: Response) => {
+    await matchesServices.updateInProgress(+req.params.id);
+    return res.status(200).json({ message: 'Finished' });
+  },
 };
 
 export default matchesController;

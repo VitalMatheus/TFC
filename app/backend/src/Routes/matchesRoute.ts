@@ -3,7 +3,8 @@ import matchesController from '../controllers/matchesController';
 
 const route = Router();
 
-route.get('/matches', matchesController.getAll, matchesController.getFiltered);
-route.post('/matches', matchesController.insertMatch);
+route.get('/matches', matchesController.getAll, matchesController.getFiltered)
+  .post('/matches', matchesController.insertMatch)
+  .patch('/matches/:id/finish', matchesController.updateInProgress);
 
 export default route;
