@@ -109,4 +109,18 @@ describe('testa endpoint de matches', () => {
     expect(data.status).to.be.equal(401)
     expect(data.body.message).to.be.equal('It is not possible to create a match with two equal teams')
   })
+
+  it('verifica que não deve ser possível inserir um time que não exista na tabela Teams', async () => {
+    const data = await chai
+    .request(app)
+    .post('/matches')
+    .send({
+      homeTeam: 20, 
+      awayTeam: 21,
+      homeTeamGoals: 2,
+      awayTeamGoals: 1,
+    })
+    expect(data.status).to.be.equal(404)
+    expect(data.body.message).to.be.equal('There is no team with such id!')
+  })
 })
