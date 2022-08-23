@@ -95,4 +95,18 @@ describe('testa endpoint de matches', () => {
     expect(data.status).to.be.equal(201)
     expect(typeof data.body).to.be.equal('object')
   })
+
+  it('verifica que não deve ser possível inserir uma partida com times iguais', async ()=> {
+    const data = await chai
+    .request(app)
+    .post('/matches')
+    .send({
+      homeTeam: 8, 
+      awayTeam: 8,
+      homeTeamGoals: 2,
+      awayTeamGoals: 2,
+    })
+    expect(data.status).to.be.equal(401)
+    expect(data.body.message).to.be.equal('It is not possible to create a match with two equal teams')
+  })
 })
