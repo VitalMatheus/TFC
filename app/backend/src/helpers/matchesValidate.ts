@@ -3,7 +3,6 @@ import Team from '../database/models/teams';
 
 export default async function matchesValidate(match: Imatch) {
   const { homeTeam, awayTeam } = match;
-  console.log({ homeTeam });
   if (!homeTeam || !awayTeam) {
     return { status: 404, message: { message: 'There is no team with such id!' } };
   }

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import matchesServices from '../services/matchesServices';
 import matchesValidate from '../helpers/matchesValidate';
+import validateToken from '../helpers/jwtValidate';
 
 const matchesController = {
   getAll: async (req: Request, res: Response, next: NextFunction) => {
@@ -19,6 +20,15 @@ const matchesController = {
   insertMatch: async (req: Request, res: Response) => {
     const validated = await matchesValidate(req.body);
     if (validated) return res.status(validated.status).json(validated.message);
+
+    const token = req.headers.authorization;
+    if (!token) return res.status(401).json({ message: 'Token must be a valid token' });
+    try {
+      console.log({ token });
+      validateToken(token);
+    } catch (error) {
+      return res.status(401).json({ message: 'Token must be a valid token' });
+    }
 
     const data = await matchesServices.insertMatch(req.body);
     return res.status(201).json(data);

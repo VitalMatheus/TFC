@@ -1,5 +1,6 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as Jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -83,9 +84,13 @@ describe('testa endpoint de matches', () => {
   })
 
   it('ao inserir uma partida retorna um objeto com status 201', async () => {
+    const secret = process.env.JWT_SECRET || 'jwt_secret';
+    const token = Jwt.sign({ token: 'valid_token' }, secret);
+    
     const data = await chai
     .request(app)
     .post('/matches')
+    .set({ 'Authorization': token })
     .send({
       homeTeam: 16, 
       awayTeam: 8,
@@ -122,5 +127,25 @@ describe('testa endpoint de matches', () => {
     })
     expect(data.status).to.be.equal(404)
     expect(data.body.message).to.be.equal('There is no team with such id!')
+  })
+
+  
+  it('Verifica que não deve ser possível inserir uma partida sem um token válido', (done) => {
+    const token = 'invalid_token';
+    chai
+    .request(app)
+    .post('/matches')
+    .set({ 'Authorization': token })
+    .send({
+      homeTeam: 2, 
+      awayTeam: 5,
+      homeTeamGoals: 2,
+      awayTeamGoals: 1,
+    })
+    .end((err, res) => {
+      if (err) done(err);
+        expect(res.status).to.equal(401);
+        done()
+    })
   })
 })
