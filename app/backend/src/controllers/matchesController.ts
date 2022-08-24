@@ -5,9 +5,9 @@ import validateToken from '../helpers/jwtValidate';
 
 const matchesController = {
   getAll: async (req: Request, res: Response, next: NextFunction) => {
+    if (req.query.inProgress) next();
     const data = await matchesServices.getAll();
-    if (!req.query.inProgress) return res.status(200).json(data);
-    next();
+    return res.status(200).json(data);
   },
 
   getFiltered: async (req: Request, res: Response) => {
@@ -24,7 +24,6 @@ const matchesController = {
     const token = req.headers.authorization;
     if (!token) return res.status(401).json({ message: 'Token must be a valid token' });
     try {
-      console.log({ token });
       validateToken(token);
     } catch (error) {
       return res.status(401).json({ message: 'Token must be a valid token' });

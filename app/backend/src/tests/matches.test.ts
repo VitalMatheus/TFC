@@ -8,25 +8,11 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import { object } from 'joi';
+import { request } from 'http';
 
 chai.use(chaiHttp);
 
 const { expect } = chai;
-
-const obj = {
-  id: 1,
-  homeTeam: 16,
-  homeTeamGoals: 1,
-  awayTeam: 8,
-  awayTeamGoals: 1,
-  inProgress: false,
-  teamHome: {
-    teamName: 'São Paulo'
-  },
-  teamAway: {
-    teamName: 'Grêmio'
-  }
-}
 
 const inProgress = {
   "id": 41,
@@ -60,6 +46,20 @@ const finished = {
 
 describe('testa endpoint de matches', () => {
   it('ao clicar em partidas retorna retorna status 200 com lista de partidas', async () => {
+    const obj = {
+      id: 1,
+      homeTeam: 16,
+      homeTeamGoals: 1,
+      awayTeam: 8,
+      awayTeamGoals: 1,
+      inProgress: false,
+      teamHome: {
+        teamName: 'São Paulo'
+      },
+      teamAway: {
+        teamName: 'Grêmio'
+      }
+    }
     const data = await chai
     .request(app)
     .get('/matches')
@@ -147,5 +147,16 @@ describe('testa endpoint de matches', () => {
         expect(res.status).to.equal(401);
         done()
     })
+  })
+
+  it('verifica se é possível atualizar os gols de uma partida', async () => {
+    const data = await chai
+    .request(app)
+    .patch('/matches/1')
+    .send({
+      "homeTeamGoals": 3,
+      "awayTeamGoals": 1
+    })
+    expect(data.status).to.be.equal(200);
   })
 })
