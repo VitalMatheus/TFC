@@ -5,8 +5,8 @@ import validateToken from '../helpers/jwtValidate';
 
 const matchesController = {
   getAll: async (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.inProgress) next();
     const data = await matchesServices.getAll();
+    if (req.query.inProgress) return next();
     return res.status(200).json(data);
   },
 

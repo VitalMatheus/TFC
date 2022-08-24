@@ -17,7 +17,7 @@ const loginController = {
       const [user] = Object.values(validateToken(token));
 
       const role = await loginService.getRole(user);
-      if (!role) res.status(401).json({ message: 'User not aloud' });
+      if (!role) return res.status(401).json({ message: 'User not aloud' });
       return res.status(200).json({ role });
     } catch (error) {
       next(error);
