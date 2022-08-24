@@ -34,9 +34,16 @@ const matchesController = {
     return res.status(201).json(data);
   },
 
-  updateInProgress: async (req: Request, res: Response) => {
-    await matchesServices.updateInProgress(+req.params.id);
+  finishMatch: async (req: Request, res: Response) => {
+    await matchesServices.finishMatch(+req.params.id);
     return res.status(200).json({ message: 'Finished' });
+  },
+
+  updateGoals: async (req: Request, res: Response) => {
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    const { id } = req.params;
+    await matchesServices.updateGoals({ homeTeamGoals, awayTeamGoals, id: +id });
+    return res.status(200).json({ message: 'goool' });
   },
 };
 

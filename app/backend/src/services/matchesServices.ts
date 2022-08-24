@@ -1,6 +1,6 @@
 import Match from '../database/models/matches';
 import Team from '../database/models/teams';
-import { Imatch } from '../interfaces/interfaces';
+import { Imatch, IupdateGoals } from '../interfaces/interfaces';
 
 const matchesServices = {
   getAll: async () => {
@@ -24,8 +24,13 @@ const matchesServices = {
     return data;
   },
 
-  updateInProgress: async (id: number) => {
+  finishMatch: async (id: number) => {
     await Match.update({ inProgress: false }, { where: { id } });
+  },
+
+  updateGoals: async (param: IupdateGoals) => {
+    const { homeTeamGoals, awayTeamGoals, id } = param;
+    await Match.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
   },
 };
 

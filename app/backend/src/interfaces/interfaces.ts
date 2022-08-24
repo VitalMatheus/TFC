@@ -17,3 +17,9 @@ export interface Imatch {
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
+
+export interface IupdateGoals {
+  id: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
+}
