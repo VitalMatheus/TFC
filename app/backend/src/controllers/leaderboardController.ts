@@ -6,6 +6,11 @@ const leaderboardController = {
     const data = await leaderboardServices.homeBoard();
     return res.status(200).json(data);
   },
+
+  awayBoard: async (req: Request, res: Response) => {
+    const data = await leaderboardServices.awayBoard();
+    return res.status(200).json(data);
+  },
 };
 
 export default leaderboardController;
