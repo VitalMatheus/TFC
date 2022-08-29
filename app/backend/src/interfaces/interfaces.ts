@@ -23,17 +23,3 @@ export interface IupdateGoals {
   homeTeamGoals: number,
   awayTeamGoals: number,
 }
-
-// export interface IhomePanel {
-//   homeTeam: number;
-//   homeTeamGoals: number;
-//   awayTeam: number;
-//   awayTeamGoals: number;
-//   inProgress: boolean;
-//   teamHome: {
-//     teamName: string;
-//   };
-//   teamAway: {
-//     teamName: string;
-//   };
-// }

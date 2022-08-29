@@ -11,6 +11,11 @@ const leaderboardController = {
     const data = await leaderboardServices.awayBoard();
     return res.status(200).json(data);
   },
+
+  leaderBoard: async (req: Request, res: Response) => {
+    const data = await leaderboardServices.leaderBoard();
+    return res.status(200).json(data);
+  },
 };
 
 export default leaderboardController;
