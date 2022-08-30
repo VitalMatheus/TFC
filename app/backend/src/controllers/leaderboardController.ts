@@ -14,7 +14,12 @@ const leaderboardController = {
 
   leaderBoard: async (req: Request, res: Response) => {
     const data = await leaderboardServices.leaderBoard();
-    return res.status(200).json(data);
+    const result = data.sort((a, b) => a.goalsOwn - b.goalsOwn)
+      .sort((a, b) => b.goalsFavor - a.goalsFavor)
+      .sort((a, b) => b.goalsBalance - a.goalsBalance)
+      .sort((a, b) => b.totalVictories - a.totalVictories)
+      .sort((a, b) => b.totalPoints - a.totalPoints);
+    return res.status(200).json(result);
   },
 };
 
